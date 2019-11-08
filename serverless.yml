@@ -1,0 +1,18 @@
+service: mirko-notifier-service
+frameworkVersion: ">=1.1.0 <2.0.0"
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  environment:
+    appkey: xyz
+    secretkey: abc123
+
+functions:
+  notify:
+    handler: handler.run
+    memorySize: 128
+    timeout: 5
+    events:
+        # 10am UTC, daily
+      - schedule: cron(0 10 * * ? *)
