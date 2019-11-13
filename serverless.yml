@@ -7,6 +7,7 @@ provider:
   environment:
     appkey: xyz
     secretkey: abc123
+    dynamo_table: mirko_notifier
 
 functions:
   notify:
