@@ -8,12 +8,32 @@ provider:
     appkey: xyz
     secretkey: abc123
     dynamo_table: mirko_notifier
+    region: eu-west-1
 
 functions:
   notify:
     handler: handler.run
-    memorySize: 128
-    timeout: 5
+    memorySize: 512
+    timeout: 30
     events:
         # 10am UTC, daily
       - schedule: cron(0 10 * * ? *)
+resources:
+  Resources:
+    TagDefinitionsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: mirko_notifier
+        AttributeDefinitions:
+          - AttributeName: tag
+            AttributeType: S
+        KeySchema:
+          - AttributeName: tag
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+      EmailNotificationTopic:
+        Type: AWS::SNS::Topic
+        Properties:
+          TopicName: "EmailNotificationTopic"
