@@ -33,7 +33,7 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-      EmailNotificationTopic:
-        Type: AWS::SNS::Topic
-        Properties:
-          TopicName: "EmailNotificationTopic"
+    EmailNotificationTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: "EmailNotificationTopic"
