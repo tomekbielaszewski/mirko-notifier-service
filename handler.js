@@ -6,16 +6,19 @@ const formatEmail = require('./lib/email-formatter');
 const sendEmail = require('./lib/email-sender');
 
 module.exports.run = (event, context, callback) => {
-  try {
-    let tracking = tracking.get();
-    let newLinks = getNewLinks(tracking);
-    let email = formatEmail(newLinks);
-    sendEmail(email);
-    tracking.save(toTracking(newLinks));
-    finish(callback);
-  } catch (e) {
-    error(callback)(e);
-  }
+  tracking.get()
+    .then(getNewLinks)
+    .then(links => {
+      return formatEmail(links)
+        .then(sendEmail)
+        .then(_ => {
+          return tracking.save(toTracking(links))
+        })
+        .then(_ => {
+          finish(callback);
+        })
+        .catch(error(callback));
+    });
 };
 
 function toTracking(newLinks) {
