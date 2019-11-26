@@ -15,9 +15,7 @@ provider:
   iamRoleStatements:
     - Effect: Allow
       Action:
-        - dynamodb:Get*
-        - dynamodb:Query
-        - dynamodb:Update*
+        - dynamodb:Scan
         - dynamodb:PutItem
       Resource: arn:aws:dynamodb:*:*:table/${self:provider.environment.dynamo_table}
     - Effect: Allow
