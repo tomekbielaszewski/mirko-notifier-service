@@ -3,18 +3,32 @@ frameworkVersion: ">=1.1.0 <2.0.0"
 
 provider:
   name: aws
+  profile: sls_framework
   runtime: nodejs8.10
   environment:
-    appkey: xyz
-    secretkey: abc123
+    appkey: d99b6pFK8f
+    secretkey: z7nF82zdPy
     dynamo_table: mirko_notifier
+    sns_topic: EmailNotificationTopic
     region: eu-west-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Get*
+        - dynamodb:Query
+        - dynamodb:Update*
+        - dynamodb:PutItem
+      Resource: arn:aws:dynamodb:*:*:table/${self:provider.environment.dynamo_table}
+    - Effect: Allow
+      Action:
+        - sns:Publish
+      Resource: arn:aws:sns:*:*:${self:provider.environment.sns_topic}
 
 functions:
   notify:
     handler: handler.run
     memorySize: 512
-    timeout: 30
+    timeout: 5
     events:
         # 10am UTC, daily
       - schedule: cron(0 10 * * ? *)
@@ -23,7 +37,7 @@ resources:
     TagDefinitionsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: mirko_notifier
+        TableName: ${self:provider.environment.dynamo_table}
         AttributeDefinitions:
           - AttributeName: tag
             AttributeType: S
@@ -36,4 +50,4 @@ resources:
     EmailNotificationTopic:
       Type: AWS::SNS::Topic
       Properties:
-        TopicName: "EmailNotificationTopic"
+        TopicName: ${self:provider.environment.sns_topic}
