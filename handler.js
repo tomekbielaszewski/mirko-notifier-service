@@ -29,7 +29,12 @@ function toTracking(oldEntryTracking, newLinks) {
     .map(link => _.maxBy(link, l => new Date(l.date).getTime()));
   return _.values(_.groupBy(oldEntryTracking, 'tag'))
     .map(t => t[0])
-    .map(t => _.set(t, 'lastDate', _.find(newestLinks, l => l.tag === t.tag).date))
+    .map(t => {
+      return {tag: t, link: _.find(newestLinks, l => l.tag === t.tag)}
+    })
+    .filter(t => t.link)
+    .map(t => _.set(t.tag, 'lastDate', t.link.date))
+    .map(t => t.tag);
 }
 
 function finish(callback) {
