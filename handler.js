@@ -33,7 +33,7 @@ function toTracking(oldEntryTracking, newLinks) {
       return {tag: t, link: _.find(newestLinks, l => l.tag === t.tag)}
     })
     .filter(t => t.link)
-    .map(t => _.set(t.tag, 'lastDate', t.link.date))
+    .map(t => _.set(t, 'tag.lastDate', t.link.date))
     .map(t => t.tag);
 }
 
