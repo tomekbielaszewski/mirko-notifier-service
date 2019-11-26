@@ -4,6 +4,7 @@ frameworkVersion: ">=1.1.0 <2.0.0"
 provider:
   name: aws
   profile: sls_framework
+  region: eu-west-1
   runtime: nodejs8.10
   environment:
     appkey: d99b6pFK8f
