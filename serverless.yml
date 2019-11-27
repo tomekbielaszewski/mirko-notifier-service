@@ -31,7 +31,7 @@ functions:
     timeout: 5
     events:
         # 10am UTC, daily
-      - schedule: cron(0 10 * * ? *)
+      - schedule: cron(0 9,12,15,18,20 * * ? *)
 resources:
   Resources:
     TagDefinitionsTable:
