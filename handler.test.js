@@ -19,5 +19,4 @@ test('test', () => {
       res(status.success);
     })
   });
-  // expect(sum(1, 2)).toBe(3);
 }, 30000);
