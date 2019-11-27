@@ -11,6 +11,7 @@ provider:
     secretkey: z7nF82zdPy
     dynamo_table: mirko_notifier
     sns_topic: EmailNotificationTopic
+    sns_topic_arn: arn:aws:sns:eu-west-1:505701054639:EmailNotificationTopic
     region: eu-west-1
   iamRoleStatements:
     - Effect: Allow
