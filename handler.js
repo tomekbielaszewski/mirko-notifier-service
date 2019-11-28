@@ -2,7 +2,8 @@
 
 const tracking = require('./lib/entry-tracking');
 const getNewLinks = require('./lib/wykop-link-provider');
-const formatEmail = require('./lib/email-formatter');
+const formatEmail = require('./lib/email-formatter').format;
+const EMPTY_LINKS_ERROR = require('./lib/email-formatter').EMPTY_LINKS_ERROR;
 const sendEmail = require('./lib/email-sender');
 const _ = require('lodash');
 
@@ -43,6 +44,11 @@ function finish(callback) {
 
 function error(callback) {
   return (error) => {
-    callback(error, {success: false});
+    console.error(EMPTY_LINKS_ERROR);
+    if (error === EMPTY_LINKS_ERROR) {
+      finish(callback);
+    } else {
+      callback(error, {success: false});
+    }
   }
 }
