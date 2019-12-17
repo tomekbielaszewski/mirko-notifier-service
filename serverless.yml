@@ -28,7 +28,7 @@ functions:
   notify:
     handler: handler.run
     memorySize: 256
-    timeout: 10
+    timeout: 15
     events:
       # Daily at 8,11,14,17,19 GMT (+1 for poland)
       - schedule: cron(0 8,11,14,17,19 * * ? *)
